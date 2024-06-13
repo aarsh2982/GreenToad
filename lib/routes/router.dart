@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // views
-import 'package:greentoad_app/views/splash_view.dart';
-import 'package:greentoad_app/views/home_view.dart';
-import 'package:greentoad_app/views/settings_view.dart';
+import 'package:greentoad_app/views/splash/splash_view.dart';
+import 'package:greentoad_app/views/home/home_view.dart';
+import 'package:greentoad_app/views/settings/settings_view.dart';
+import 'package:greentoad_app/views/notifications/notifications_view.dart';
 
 // App Router
 class AppRouter {
@@ -35,6 +36,10 @@ class AppRouter {
       GoRoute(
         path: "/settings",
         builder: (context, state) => const SettingsView(),
+      ),
+      GoRoute(
+        path: "/notifications",
+        builder: (context, state) => const NotificationsView(),
       ),
     ],
   );

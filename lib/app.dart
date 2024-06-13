@@ -1,6 +1,6 @@
 // Main App File
 import 'package:flutter/material.dart';
-import 'package:greentoad_app/app_router/router.dart';
+import 'package:greentoad_app/routes/router.dart';
 import 'package:greentoad_app/config/theme.dart';
 
 class GreenToadApp extends StatelessWidget {
@@ -12,7 +12,7 @@ class GreenToadApp extends StatelessWidget {
       // loads all app routes configured with go_router
       routerConfig: AppRouter.router,
 
-      // removing debugbanner
+      // removing debug banner
       debugShowCheckedModeBanner: false,
 
       // applying custom themes
