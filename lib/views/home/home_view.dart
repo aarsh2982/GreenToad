@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:greentoad_app/views/home/calendar_insights.dart';
 import 'package:greentoad_app/views/home/greentoad_menu.dart';
-import 'package:greentoad_app/views/home/task_insights.dart';
+import 'package:greentoad_app/views/home/taskboards_insights.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -36,7 +36,7 @@ class HomeView extends StatelessWidget {
           children: const [
             CalendarInsights(),
             SizedBox(height: 20.0),
-            TaskInsights(),
+            TaskBoards(),
           ],
         ),
       ),

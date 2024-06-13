@@ -1,18 +1,18 @@
-// Task Insights Widget for Home view
+// Task Boards Insights Widget for Home view
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:greentoad_app/config/constants.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class TaskInsights extends StatefulWidget {
-  const TaskInsights({super.key});
+class TaskBoards extends StatefulWidget {
+  const TaskBoards({super.key});
 
   @override
-  State<TaskInsights> createState() => _TaskInsightsState();
+  State<TaskBoards> createState() => _TaskBoardsState();
 }
 
-class _TaskInsightsState extends State<TaskInsights> {
+class _TaskBoardsState extends State<TaskBoards> {
   // task boards section states
   int _currentTaskBoardIndex = 0;
   final int _totalTaskBoards = 10;
