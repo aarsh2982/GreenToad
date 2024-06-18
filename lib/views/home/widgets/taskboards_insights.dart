@@ -1,5 +1,6 @@
 // Task Boards Insights Widget for Home view
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:greentoad_app/config/constants.dart';
@@ -41,17 +42,13 @@ class _TaskBoardsState extends State<TaskBoards> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           "Task Boards",
-          style: TextStyle(
-            fontSize: 22.0,
-            fontFamily: "Roboto",
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         IconButton(
           onPressed: () {
-            print("Should take user to Add New Task Board Page later!");
+            context.push("/taskboards/create");
           },
           icon: const Icon(
             FontAwesomeIcons.plus,
@@ -85,7 +82,7 @@ class _TaskBoardsState extends State<TaskBoards> {
       itemBuilder: (context, index, realIndex) {
         return GestureDetector(
           onTap: () {
-            print("Should open individual Task Board later!");
+            context.push("/taskboards/$index");
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 1000),
@@ -96,7 +93,7 @@ class _TaskBoardsState extends State<TaskBoards> {
               vertical: 18.0,
             ),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: Column(
@@ -125,24 +122,22 @@ class _TaskBoardsState extends State<TaskBoards> {
                     Container(
                       width: MediaQuery.of(context).size.width / 3,
                       margin: const EdgeInsets.only(left: 16.0),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "750/1000",
                             textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(
                             "CN5009 Module Task",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],
                       ),
@@ -154,24 +149,15 @@ class _TaskBoardsState extends State<TaskBoards> {
                   child: Text(
                     "10 Task Lists · 7 Files",
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey[600],
-                    ),
+                    style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     "University",
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
                 Text(
@@ -179,10 +165,7 @@ class _TaskBoardsState extends State<TaskBoards> {
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey[600],
-                  ),
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
             ),
@@ -200,14 +183,11 @@ class _TaskBoardsState extends State<TaskBoards> {
       children: [
         Text(
           "${_currentTaskBoardIndex + 1}/$_totalTaskBoards",
-          style: TextStyle(
-            fontSize: 12.0,
-            color: Colors.grey[600],
-          ),
+          style: Theme.of(context).textTheme.labelSmall,
         ),
         GestureDetector(
           onTap: () {
-            print("Should take user to All Task Boards Page later!");
+            context.push("/taskboards");
           },
           child: const Row(
             children: [

@@ -1,0 +1,3 @@
+// Event Model
+
+class EventModel {}

@@ -16,10 +16,18 @@ class _GreenToadMenuState extends State<GreenToadMenu> {
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
+          backgroundColor: Colors.transparent,
           context: context,
           builder: (modalContext) => Container(
             width: double.maxFinite,
             height: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
+              ),
+            ),
             padding: const EdgeInsets.symmetric(
               vertical: 12.0,
               horizontal: 14.0,
@@ -46,7 +54,13 @@ class _GreenToadMenuState extends State<GreenToadMenu> {
                           // navigate user to 'settings page'
                           context.push("/settings");
                         },
-                        icon: const Icon(Icons.settings),
+                        icon: Icon(
+                          Icons.settings,
+                          color: (MediaQuery.of(context).platformBrightness ==
+                                  Brightness.dark)
+                              ? whiteColor
+                              : const Color(0xFF353b48),
+                        ),
                       ),
                     ],
                   ),
@@ -57,7 +71,7 @@ class _GreenToadMenuState extends State<GreenToadMenu> {
         );
       },
       child: const CircleAvatar(
-        radius: 28.0,
+        radius: 26.0,
         backgroundColor: offWhiteColor,
         backgroundImage: AssetImage("assets/images/Main Logo.png"),
       ),
@@ -124,7 +138,7 @@ class _GreenToadMenuState extends State<GreenToadMenu> {
               ),
             )
           : Text(
-              "digvijaysinh".toUpperCase() + "padhiyar".toUpperCase(),
+              "digvijaysinh"[0].toUpperCase() + "padhiyar"[0].toUpperCase(),
               style: const TextStyle(fontSize: 22.0, color: whiteColor),
             ),
     );
