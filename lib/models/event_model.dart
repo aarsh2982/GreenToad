@@ -2,30 +2,30 @@
 import 'package:flutter/material.dart';
 
 class EventModel {
-  final String id;
+  final String id; // primary key
   final String title;
-  final String description;
   final DateTime startTime;
   final DateTime endTime;
-  final String location;
-  final Color color;
+  final String? description;
+  final String? location;
+  final Color? color;
+  final String? url;
+  final String? phone;
+  final String? email;
   final bool isAllDay;
-  final String url;
-  final String phone;
-  final String email;
 
   EventModel({
     required this.id,
     required this.title,
-    required this.description,
     required this.startTime,
     required this.endTime,
-    required this.location,
-    required this.color,
-    required this.isAllDay,
-    required this.url,
-    required this.phone,
-    required this.email,
+    this.description,
+    this.location,
+    this.color,
+    this.url,
+    this.phone,
+    this.email,
+    this.isAllDay = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,14 +33,14 @@ class EventModel {
       'id': id,
       'title': title,
       'description': description,
-      'startTime': startTime,
-      'endTime': endTime,
+      'startTime': startTime.toIso8601String(),
+      'endTime': endTime.toIso8601String(),
       'location': location,
-      'color': color,
-      'isAllDay': isAllDay ? 1 : 0,
+      'color': color?.value,
       'url': url,
       'phone': phone,
       'email': email,
+      'isAllDay': isAllDay ? 1 : 0,
     };
   }
 
@@ -49,14 +49,14 @@ class EventModel {
       id: map['id'],
       title: map['title'],
       description: map['description'],
-      startTime: map['startTime'],
-      endTime: map['endTime'],
+      startTime: DateTime.parse(map['startTime']),
+      endTime: DateTime.parse(map['endTime']),
       location: map['location'],
-      color: map['color'],
-      isAllDay: map['isAllDay'],
+      color: map['color'] != null ? Color(map['color']) : null,
       url: map['url'],
       phone: map['phone'],
       email: map['email'],
+      isAllDay: map['isAllDay'] == 1,
     );
   }
 }

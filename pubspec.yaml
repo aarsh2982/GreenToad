@@ -24,7 +24,6 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   flame: ^1.18.0
   path_provider: ^2.1.3
-  flutter_riverpod: ^2.5.1
   path: ^1.9.0
   lottie: ^3.1.2
   table_calendar: ^3.1.2
@@ -33,6 +32,8 @@ dependencies:
   flutter_local_notifications: ^17.1.2
   timezone: ^0.9.3
   flutter_lints: ^4.0.0
+  riverpod: ^2.5.1
+  uuid: ^4.4.0
 
 
 dev_dependencies:

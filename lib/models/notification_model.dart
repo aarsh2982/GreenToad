@@ -1,7 +1,7 @@
 // Notification Model
 
 class NotificationModel {
-  final String id;
+  final String id; // primary key
   final String title;
   final String message;
   final DateTime time;
