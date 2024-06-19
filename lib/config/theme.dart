@@ -82,6 +82,7 @@ class AppThemes {
         color: Color(0xFF2f3542),
       ),
     ),
+    dividerTheme: const DividerThemeData(color: offWhiteColor),
   );
 
   // Dark Theme
@@ -162,5 +163,6 @@ class AppThemes {
         color: Color(0xFFf1f2f6),
       ),
     ),
+    dividerTheme: const DividerThemeData(color: Color(0xFF565555)),
   );
 }
