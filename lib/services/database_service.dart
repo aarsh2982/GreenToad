@@ -1,15 +1,18 @@
 // SQFLite Database Service
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 
 class DataBaseService {
   static final DataBaseService instance = DataBaseService._init();
 
   static Database? _database;
+  Database? mockDatabase;
 
   DataBaseService._init();
 
   Future<Database> get database async {
+    if (mockDatabase != null) return mockDatabase!;
     if (_database != null) return _database!;
 
     _database = await _initDB('greentoad.db');
@@ -18,8 +21,12 @@ class DataBaseService {
   }
 
   Future<Database> _initDB(String filePath) async {
+    // Ensure the correct database factory is initialized
+    if (databaseFactory == null) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
     final dbPath = await getDatabasesPath();
-
     final path = join(dbPath, filePath);
 
     return await openDatabase(path, version: 1, onCreate: _createDB);
