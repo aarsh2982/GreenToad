@@ -24,6 +24,7 @@ class DataBaseService {
 
   Future<Database> _initDB(String filePath) async {
     // Ensure the correct database factory is initialized
+    // ignore: unnecessary_null_comparison
     if (databaseFactory == null) {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;

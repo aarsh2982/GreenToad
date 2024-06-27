@@ -43,6 +43,7 @@ class _SettingProfileState extends State<SettingProfile> {
     return CircleAvatar(
       radius: 32.0,
       backgroundColor: secondaryColor,
+      // ignore: unnecessary_null_comparison
       child: ("" != null)
           ? ClipOval(
               child: Image(
