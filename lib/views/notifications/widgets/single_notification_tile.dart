@@ -1,5 +1,5 @@
 // Single List Tile Widget for Notifications View
-
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:greentoad_app/config/constants.dart';
@@ -29,6 +29,7 @@ class _SingleNotificationTileState extends State<SingleNotificationTile> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        context.push("/notifications/${widget.id}");
         print("Take user to notification which has id: ${widget.id}");
       },
       isThreeLine: false,

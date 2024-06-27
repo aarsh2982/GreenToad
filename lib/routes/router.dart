@@ -8,9 +8,13 @@ import 'package:greentoad_app/views/splash/splash_view.dart';
 import 'package:greentoad_app/views/home/home_view.dart';
 import 'package:greentoad_app/views/settings/settings_view.dart';
 import 'package:greentoad_app/views/notifications/notifications_view.dart';
+import 'package:greentoad_app/views/notifications/single_notification_view.dart';
 import 'package:greentoad_app/views/taskboards/taskboards_view.dart';
 import 'package:greentoad_app/views/taskboards/create_taskboard_view.dart';
 import 'package:greentoad_app/views/taskboards/single_taskboard_view.dart';
+
+// page transitions
+import 'package:greentoad_app/routes/page_transitions.dart';
 
 // App Router
 class AppRouter {
@@ -29,10 +33,7 @@ class AppRouter {
           key: state.pageKey,
           child: const HomeView(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return PageTransitions.fadePageTransition(animation, child);
           },
         ),
       ),
@@ -43,6 +44,22 @@ class AppRouter {
       GoRoute(
         path: "/notifications",
         builder: (context, state) => const NotificationsView(),
+      ),
+      GoRoute(
+        path: "/notifications/:id",
+        pageBuilder: (context, state) {
+          final id = state.pathParameters["id"]!;
+
+          return CustomTransitionPage(
+            child: SingleNotificationView(
+              notificationId: id,
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return PageTransitions.slideUpTransition(animation, child);
+            },
+          );
+        },
       ),
       GoRoute(
         path: "/taskboards",
