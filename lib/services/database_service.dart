@@ -1,5 +1,7 @@
 // SQFLite Database Service
+// ignore: unnecessary_import
 import 'package:sqflite/sqflite.dart';
+// ignore: depend_on_referenced_packages
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart';
 
