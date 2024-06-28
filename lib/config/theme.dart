@@ -8,6 +8,11 @@ class AppThemes {
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: const Color(0xFFFFFFFF),
     primaryColor: Colors.grey[200],
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.blue[400],
+      cursorColor: Colors.blue[800],
+      selectionHandleColor: primaryColor,
+    ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: whiteColor,
@@ -89,6 +94,11 @@ class AppThemes {
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: const Color(0xFF121212),
     primaryColor: const Color(0xFF2d3436),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.blue[400],
+      cursorColor: Colors.blue[800],
+      selectionHandleColor: primaryColor,
+    ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: blackColor,

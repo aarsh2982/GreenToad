@@ -1,10 +1,16 @@
 // Create New Task Board View
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:greentoad_app/views/taskboards/widgets/new_taskboard_form.dart';
 
-class CreateTaskBoardView extends StatelessWidget {
+class CreateTaskBoardView extends StatefulWidget {
   const CreateTaskBoardView({super.key});
 
+  @override
+  State<CreateTaskBoardView> createState() => _CreateTaskBoardViewState();
+}
+
+class _CreateTaskBoardViewState extends State<CreateTaskBoardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +28,14 @@ class CreateTaskBoardView extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Container(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
+          child: ListView(
+            children: const [
+              NewTaskBoardForm(),
+            ],
+          ),
+        ),
       ),
     );
   }

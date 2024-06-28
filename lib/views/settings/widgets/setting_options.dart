@@ -25,7 +25,7 @@ final List<Option> options = [
   ),
   Option(
     link: "/settings",
-    label: "Notifications Setting",
+    label: "Notification Settings",
     icon: FontAwesomeIcons.bell,
   ),
   Option(

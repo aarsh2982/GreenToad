@@ -35,9 +35,15 @@ class _SingleNotificationViewState extends State<SingleNotificationView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildHeader(context),
-              _buildTimeStamp(context),
-              _buildDescription(context),
+              Expanded(
+                child: Column(
+                  children: [
+                    _buildHeader(context),
+                    _buildTimeStamp(context),
+                    _buildDescription(context),
+                  ],
+                ),
+              ),
               _buildDeleteButton(),
             ],
           ),
