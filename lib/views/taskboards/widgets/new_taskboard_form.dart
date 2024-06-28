@@ -1,4 +1,5 @@
 // Create New TaskBoard Form widget for Create Task Board View
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:greentoad_app/config/constants.dart';
 import 'package:greentoad_app/views/shared_widgets/text_input.dart';
@@ -19,12 +20,14 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
   late final String _currentTaskBoardId;
   final TextEditingController _boardNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  Color? _coverColor;
 
   @override
   void initState() {
     super.initState();
     setState(() {
       _currentTaskBoardId = const Uuid().v4();
+      _coverColor = coverColors[Random().nextInt(coverColors.length)];
     });
   }
 
@@ -52,6 +55,8 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
                 : null,
           ),
 
+          _buildColorPicker(context),
+
           SharedTextInputWidget(
             controller: _descriptionController,
             labelText: "Description",
@@ -63,6 +68,48 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
           _buildSubmitButton(context),
         ],
       ),
+    );
+  }
+
+  // color picker dropdown widget
+  Widget _buildColorPicker(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Set Cover Color",
+          style: Theme.of(context).textTheme.labelMedium,
+        ),
+        const SizedBox(height: 4.0),
+        DropdownButtonFormField(
+          value: _coverColor,
+          items: coverColors.map((Color color) {
+            return DropdownMenuItem(
+              value: color,
+              child: Icon(Icons.square_rounded, color: color),
+            );
+          }).toList(),
+          onChanged: (value) {
+            setState(() {
+              _coverColor = value!;
+            });
+          },
+          dropdownColor: Theme.of(context).primaryColor,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Theme.of(context).primaryColor,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: const BorderSide(color: primaryColor),
+            ),
+            counterStyle: Theme.of(context).textTheme.labelSmall,
+          ),
+        ),
+      ],
     );
   }
 
