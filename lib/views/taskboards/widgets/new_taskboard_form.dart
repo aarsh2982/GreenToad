@@ -1,7 +1,9 @@
 // Create New TaskBoard Form widget for Create Task Board View
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:greentoad_app/config/constants.dart';
+import 'package:greentoad_app/models/taskboard_model.dart';
 import 'package:greentoad_app/views/shared_widgets/text_input.dart';
 import 'package:uuid/uuid.dart';
 
@@ -94,6 +96,8 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
               _coverColor = value!;
             });
           },
+          icon: const Icon(FontAwesomeIcons.chevronDown),
+          iconSize: 18.0,
           dropdownColor: Theme.of(context).primaryColor,
           decoration: InputDecoration(
             filled: true,
@@ -120,7 +124,13 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            print("create new board now");
+            TaskBoardModel(
+              id: _currentTaskBoardId,
+              boardName: _boardNameController.text.trim(),
+              coverColor: _coverColor!,
+            );
+
+            // proceed to create new board (later)
           }
         },
         style: ButtonStyle(

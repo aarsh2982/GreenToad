@@ -22,8 +22,8 @@ class TaskBoardsView extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Container(),
+      body: const SafeArea(
+        child: Placeholder(),
       ),
     );
   }
