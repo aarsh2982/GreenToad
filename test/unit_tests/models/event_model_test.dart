@@ -14,13 +14,13 @@ void main() {
         () {
           // creating new event model
           final event = EventModel(
-            id: Uuid().v4(),
+            id: const Uuid().v4(), // primary key
             title: "Test Event Title",
             startTime: DateTime.parse('2024-06-25T10:00:00.000'),
             endTime: DateTime.parse('2024-06-26T10:00:00.000'),
             description: 'Test Description',
             location: 'Online Meeting',
-            color: Color(0xFFE74C3C),
+            color: const Color(0xFFE74C3C),
             url: 'https:test-event.digvijay.tech',
             phone: '+447831358032',
             email: 'test-eventmodel.greentoad@digvijay.tech',
