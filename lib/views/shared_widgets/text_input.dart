@@ -7,6 +7,8 @@ class SharedTextInputWidget extends StatefulWidget {
   final String labelText;
   final int? maxLength;
   final int? maxLines;
+  final Widget? prefixIcon;
+  final String? hintText;
   final FormFieldValidator<String>? validatorFn;
 
   const SharedTextInputWidget({
@@ -15,6 +17,8 @@ class SharedTextInputWidget extends StatefulWidget {
     required this.labelText,
     this.maxLength,
     this.maxLines,
+    this.prefixIcon,
+    this.hintText,
     this.validatorFn,
   });
 
@@ -45,6 +49,9 @@ class _SharedTextInputWidgetState extends State<SharedTextInputWidget> {
             maxLength: (widget.maxLength == null) ? null : widget.maxLength,
             maxLines: (widget.maxLines == null) ? 1 : widget.maxLines,
             decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: Theme.of(context).textTheme.labelSmall,
+              prefixIcon: widget.prefixIcon,
               filled: true,
               fillColor: Theme.of(context).primaryColor,
               border: OutlineInputBorder(
@@ -68,6 +75,11 @@ class _SharedTextInputWidgetState extends State<SharedTextInputWidget> {
             cursorColor: Theme.of(context).primaryColorDark,
             style: Theme.of(context).textTheme.bodySmall,
             validator: widget.validatorFn,
+
+            // closes system keyboard when user clicks outside the field
+            onTapOutside: (event) {
+              FocusScope.of(context).unfocus();
+            },
           ),
         ],
       ),

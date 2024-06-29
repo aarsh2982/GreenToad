@@ -1,6 +1,9 @@
 // All Task Boards View
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:greentoad_app/views/taskboards/widgets/find_boards.dart';
+import 'package:greentoad_app/views/taskboards/widgets/highlighted_boards.dart';
+import 'package:greentoad_app/views/taskboards/widgets/other_boards.dart';
 
 class TaskBoardsView extends StatelessWidget {
   const TaskBoardsView({super.key});
@@ -22,8 +25,14 @@ class TaskBoardsView extends StatelessWidget {
           ),
         ],
       ),
-      body: const SafeArea(
-        child: Placeholder(),
+      body: SafeArea(
+        child: ListView(
+          children: const [
+            FindBoards(),
+            HighlightedBoards(),
+            OtherBoards(),
+          ],
+        ),
       ),
     );
   }

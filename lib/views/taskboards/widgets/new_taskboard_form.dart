@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:greentoad_app/config/constants.dart';
 import 'package:greentoad_app/models/taskboard_model.dart';
 import 'package:greentoad_app/views/shared_widgets/text_input.dart';
+import 'package:greentoad_app/views/shared_widgets/buttons.dart';
 import 'package:uuid/uuid.dart';
 
 class NewTaskBoardForm extends StatefulWidget {
@@ -66,8 +67,24 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
             maxLines: 4,
           ),
 
-          // _buildDescriptionInput(context),
-          _buildSubmitButton(context),
+          // submit button
+          SharedPrimaryActionButton(
+            label: "Create Board",
+            isEnabled: true,
+            callback: () {
+              if (_formKey.currentState!.validate()) {
+                TaskBoardModel(
+                  id: _currentTaskBoardId,
+                  boardName: _boardNameController.text.trim(),
+                  coverColor: _coverColor!,
+                );
+
+                // proceed to create new board (later)
+              }
+            },
+            overlayColor: const Color(0xFF66BB6A),
+            backgroundColor: primaryColor,
+          ),
         ],
       ),
     );
@@ -79,7 +96,7 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Set Cover Color",
+          "Set Cover Color*",
           style: Theme.of(context).textTheme.labelMedium,
         ),
         const SizedBox(height: 4.0),
@@ -114,42 +131,6 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
           ),
         ),
       ],
-    );
-  }
-
-  // Submit Button widget
-  Widget _buildSubmitButton(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            TaskBoardModel(
-              id: _currentTaskBoardId,
-              boardName: _boardNameController.text.trim(),
-              coverColor: _coverColor!,
-            );
-
-            // proceed to create new board (later)
-          }
-        },
-        style: ButtonStyle(
-          elevation: const WidgetStatePropertyAll(0),
-          overlayColor: WidgetStatePropertyAll(Colors.green[400]),
-          backgroundColor: const WidgetStatePropertyAll(primaryColor),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(vertical: 14.0),
-          ),
-        ),
-        child: const Text(
-          "Create Board",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
     );
   }
 }

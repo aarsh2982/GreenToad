@@ -1,6 +1,5 @@
 // Go Router Configuration
 // App Routes Class
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // views
@@ -13,7 +12,7 @@ import 'package:greentoad_app/views/taskboards/taskboards_view.dart';
 import 'package:greentoad_app/views/taskboards/create_taskboard_view.dart';
 import 'package:greentoad_app/views/taskboards/single_taskboard_view.dart';
 
-// page transitions
+// custome page transitions
 import 'package:greentoad_app/routes/page_transitions.dart';
 
 // App Router
@@ -72,17 +71,7 @@ class AppRouter {
         pageBuilder: (context, state) => CustomTransitionPage(
           child: const CreateTaskBoardView(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return SlideTransition(
-              position: animation.drive(
-                Tween(
-                  begin: const Offset(0.0, 1.0),
-                  end: Offset.zero,
-                ).chain(
-                  CurveTween(curve: Curves.ease),
-                ),
-              ),
-              child: child,
-            );
+            return PageTransitions.slideUpTransition(animation, child);
           },
         ),
       ),
@@ -100,17 +89,7 @@ class AppRouter {
             ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
-              return SlideTransition(
-                position: animation.drive(
-                  Tween(
-                    begin: const Offset(0.0, 1.0),
-                    end: Offset.zero,
-                  ).chain(
-                    CurveTween(curve: Curves.ease),
-                  ),
-                ),
-                child: child,
-              );
+              return PageTransitions.slideUpTransition(animation, child);
             },
           );
         },

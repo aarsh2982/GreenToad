@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:greentoad_app/config/constants.dart';
+import 'package:greentoad_app/views/shared_widgets/buttons.dart';
 
 class SingleNotificationView extends StatefulWidget {
   final String notificationId;
@@ -44,7 +45,18 @@ class _SingleNotificationViewState extends State<SingleNotificationView> {
                   ],
                 ),
               ),
-              _buildDeleteButton(),
+
+              // Delete Notification Button
+              SharedPrimaryActionButton(
+                label: "Delete Notification",
+                isEnabled: true,
+                callback: () {
+                  context.pop();
+                  // proceed to delete notification (later)
+                },
+                overlayColor: const Color(0xFFD32F2F),
+                backgroundColor: Colors.red,
+              ),
             ],
           ),
         ),
@@ -99,34 +111,6 @@ class _SingleNotificationViewState extends State<SingleNotificationView> {
           style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
-    );
-  }
-
-  // destructured delete button widget
-  Widget _buildDeleteButton() {
-    return Container(
-      margin: const EdgeInsets.only(top: 60.0),
-      child: ElevatedButton(
-        onPressed: () {
-          context.pop();
-        },
-        style: ButtonStyle(
-          elevation: const WidgetStatePropertyAll(0),
-          overlayColor: WidgetStatePropertyAll(Colors.red[700]),
-          backgroundColor: const WidgetStatePropertyAll(Colors.red),
-          padding: const WidgetStatePropertyAll(
-            EdgeInsets.symmetric(vertical: 14.0),
-          ),
-        ),
-        child: const Text(
-          "Delete Notification",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
     );
   }
 }
