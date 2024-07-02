@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Primary Action Button
+// ignore: must_be_immutable
 class SharedPrimaryActionButton extends StatefulWidget {
   final String label;
   final bool isEnabled;

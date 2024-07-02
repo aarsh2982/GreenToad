@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:greentoad_app/models/taskboard_model.dart';
 import 'package:greentoad_app/view_models/taskboards_viewmodel.dart';
 
@@ -49,7 +50,7 @@ class OtherBoardsState extends ConsumerState<OtherBoards> {
               : Column(
                   children: [
                     for (var board in taskBoardsViewModel.boards)
-                      _buildBoardTile(context, board),
+                      _buildBoardTile(context, board)
                   ],
                 ),
         ],
@@ -104,7 +105,7 @@ class OtherBoardsState extends ConsumerState<OtherBoards> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         onTap: () {
-          print("Take user to board with id: ${board.id}");
+          context.push("/taskboards/${board.id}");
         },
       ),
     );
