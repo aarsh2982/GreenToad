@@ -1,33 +1,40 @@
 // Create New TaskBoard Form widget for Create Task Board View
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:greentoad_app/config/constants.dart';
 import 'package:greentoad_app/models/taskboard_model.dart';
 import 'package:greentoad_app/views/shared_widgets/text_input.dart';
 import 'package:greentoad_app/views/shared_widgets/buttons.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greentoad_app/view_models/taskboards_viewmodel.dart';
 
-class NewTaskBoardForm extends StatefulWidget {
+class NewTaskBoardForm extends ConsumerStatefulWidget {
   const NewTaskBoardForm({super.key});
 
   @override
-  State<NewTaskBoardForm> createState() => _NewTaskBoardFormState();
+  NewTaskBoardFormState createState() => NewTaskBoardFormState();
 }
 
-class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
+class NewTaskBoardFormState extends ConsumerState<NewTaskBoardForm> {
   // global form key
   final _formKey = GlobalKey<FormState>();
 
   // preparing payload
   late final String _currentTaskBoardId;
+
   final TextEditingController _boardNameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
   Color? _coverColor;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
+
     setState(() {
       _currentTaskBoardId = const Uuid().v4();
       _coverColor = coverColors[Random().nextInt(coverColors.length)];
@@ -44,6 +51,8 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
 
   @override
   Widget build(BuildContext context) {
+    final taskBoardsViewModel = ref.watch(taskBoardViewModel);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -71,15 +80,35 @@ class _NewTaskBoardFormState extends State<NewTaskBoardForm> {
           SharedPrimaryActionButton(
             label: "Create Board",
             isEnabled: true,
-            callback: () {
+            isLoading: _isLoading,
+            callback: () async {
               if (_formKey.currentState!.validate()) {
-                TaskBoardModel(
+                // start loading state
+                setState(() {
+                  _isLoading = true;
+                });
+
+                final board = TaskBoardModel(
                   id: _currentTaskBoardId,
                   boardName: _boardNameController.text.trim(),
                   coverColor: _coverColor!,
+                  description: _descriptionController.text.trim(),
                 );
 
                 // proceed to create new board (later)
+                await taskBoardsViewModel.createBoard(board);
+
+                // remove entered values from the fields
+                _boardNameController.text = "";
+                _descriptionController.text = "";
+
+                // stop loading state
+                setState(() {
+                  _isLoading = false;
+                });
+
+                // exit page
+                context.pop();
               }
             },
             overlayColor: const Color(0xFF66BB6A),

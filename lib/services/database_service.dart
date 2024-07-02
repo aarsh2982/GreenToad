@@ -102,7 +102,7 @@ class DataBaseService {
         CREATE TABLE task_boards (
           id TEXT PRIMARY KEY,
           coverColor INTEGER NOT NULL,
-          boardName TEXT NOT NULL CHECK(LENGTH(boardName) <= 60),
+          boardName TEXT NOT NULL CHECK(LENGTH(boardName) <= 60) UNIQUE,
           description TEXT CHECK(LENGTH(description) <= 2500),
           startTime TEXT,
           endTime TEXT,

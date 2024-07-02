@@ -8,14 +8,16 @@ class SharedPrimaryActionButton extends StatefulWidget {
   final VoidCallback callback;
   final Color overlayColor;
   final Color backgroundColor;
+  bool isLoading;
 
-  const SharedPrimaryActionButton({
+  SharedPrimaryActionButton({
     super.key,
     required this.label,
     required this.isEnabled,
     required this.callback,
     required this.overlayColor,
     required this.backgroundColor,
+    this.isLoading = false,
   });
 
   @override
@@ -29,19 +31,22 @@ class _SharedPrimaryActionButtonState extends State<SharedPrimaryActionButton> {
     return SizedBox(
       width: double.maxFinite,
       child: ElevatedButton(
-        onPressed: (widget.isEnabled) ? widget.callback : null,
+        onPressed:
+            (widget.isEnabled && !widget.isLoading) ? widget.callback : null,
         style: ButtonStyle(
           elevation: const WidgetStatePropertyAll(0),
           overlayColor: WidgetStatePropertyAll(widget.overlayColor),
           backgroundColor: WidgetStatePropertyAll(
-            (widget.isEnabled) ? widget.backgroundColor : Colors.grey[600],
+            (widget.isEnabled && !widget.isLoading)
+                ? widget.backgroundColor
+                : Colors.grey[600],
           ),
           padding: const WidgetStatePropertyAll(
             EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
           ),
         ),
         child: Text(
-          widget.label,
+          (widget.isLoading) ? "Loading.." : widget.label,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16.0,

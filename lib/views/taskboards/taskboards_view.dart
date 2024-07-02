@@ -27,9 +27,9 @@ class TaskBoardsView extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          children: const [
-            FindBoards(),
-            HighlightedBoards(),
+          children: [
+            const FindBoards(),
+            const HighlightedBoards(),
             OtherBoards(),
           ],
         ),

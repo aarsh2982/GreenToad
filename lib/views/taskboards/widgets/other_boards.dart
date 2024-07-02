@@ -1,17 +1,30 @@
 // Other TaskBoards widget for All TaskBoards View
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greentoad_app/models/taskboard_model.dart';
+import 'package:greentoad_app/view_models/taskboards_viewmodel.dart';
 
-class OtherBoards extends StatefulWidget {
+class OtherBoards extends ConsumerStatefulWidget {
   const OtherBoards({super.key});
 
   @override
-  State<OtherBoards> createState() => _OtherBoardsState();
+  OtherBoardsState createState() => OtherBoardsState();
 }
 
-class _OtherBoardsState extends State<OtherBoards> {
+class OtherBoardsState extends ConsumerState<OtherBoards> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Fetch boards when the widget is initialized
+    Future.microtask(() => ref.read(taskBoardViewModel).fetchBoards());
+  }
+
   @override
   Widget build(BuildContext context) {
+    final taskBoardsViewModel = ref.watch(taskBoardViewModel);
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 14.0,
@@ -21,7 +34,24 @@ class _OtherBoardsState extends State<OtherBoards> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(context),
-          for (var i = 0; i < 8; i++) _buildBoardTile(context),
+
+          // conditionally boards and empty message section
+          (taskBoardsViewModel.boards.isEmpty)
+              ? Container(
+                  margin: const EdgeInsets.only(top: 20.0),
+                  child: Center(
+                    child: Text(
+                      "No boards to show",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                )
+              : Column(
+                  children: [
+                    for (var board in taskBoardsViewModel.boards)
+                      _buildBoardTile(context, board),
+                  ],
+                ),
         ],
       ),
     );
@@ -49,20 +79,20 @@ class _OtherBoardsState extends State<OtherBoards> {
   }
 
   // ListTile Widget
-  Widget _buildBoardTile(BuildContext context) {
+  Widget _buildBoardTile(BuildContext context, TaskBoardModel board) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: ListTile(
-        leading: const Icon(
+        leading: Icon(
           Icons.square_rounded,
-          color: Colors.blue,
+          color: board.coverColor,
         ),
         title: Text(
-          "University Modules",
+          board.boardName,
           style: Theme.of(context).textTheme.labelLarge,
         ),
         subtitle: Text(
-          "Indication of the button's disabled state and works well in both light and dark modes",
+          (board.description != null) ? board.description! : "",
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.justify,
@@ -73,7 +103,9 @@ class _OtherBoardsState extends State<OtherBoards> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        onTap: () {},
+        onTap: () {
+          print("Take user to board with id: ${board.id}");
+        },
       ),
     );
   }
