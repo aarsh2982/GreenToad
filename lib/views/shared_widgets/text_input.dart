@@ -4,22 +4,24 @@ import 'package:greentoad_app/config/constants.dart';
 
 class SharedTextInputWidget extends StatefulWidget {
   final TextEditingController controller;
-  final String labelText;
+  final String? labelText;
   final int? maxLength;
   final int? maxLines;
   final Widget? prefixIcon;
   final String? hintText;
   final FormFieldValidator<String>? validatorFn;
+  final FormFieldSetter<String>? callbackFn;
 
   const SharedTextInputWidget({
     super.key,
     required this.controller,
-    required this.labelText,
+    this.labelText,
     this.maxLength,
     this.maxLines,
     this.prefixIcon,
     this.hintText,
     this.validatorFn,
+    this.callbackFn,
   });
 
   @override
@@ -39,11 +41,12 @@ class _SharedTextInputWidgetState extends State<SharedTextInputWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            widget.labelText,
-            style: Theme.of(context).textTheme.labelMedium,
-          ),
-          const SizedBox(height: 4.0),
+          if (widget.labelText != null)
+            Text(
+              widget.labelText!,
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+          if (widget.labelText != null) const SizedBox(height: 4.0),
           TextFormField(
             controller: widget.controller,
             maxLength: (widget.maxLength == null) ? null : widget.maxLength,
@@ -80,6 +83,9 @@ class _SharedTextInputWidgetState extends State<SharedTextInputWidget> {
             onTapOutside: (event) {
               FocusScope.of(context).unfocus();
             },
+
+            // callback function
+            onFieldSubmitted: widget.callbackFn,
           ),
         ],
       ),

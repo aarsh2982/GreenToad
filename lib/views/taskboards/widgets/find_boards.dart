@@ -23,7 +23,6 @@ class _FindBoardsState extends State<FindBoards> {
       child: SharedTextInputWidget(
         controller: _controller,
         labelText: "Search Boards",
-        hintText: "find boards, checklists, or todo items",
         prefixIcon: const Icon(
           Icons.search,
           color: primaryColor,

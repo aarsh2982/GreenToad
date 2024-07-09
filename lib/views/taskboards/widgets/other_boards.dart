@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:greentoad_app/models/taskboard_model.dart';
 import 'package:greentoad_app/view_models/taskboards_viewmodel.dart';
 
+// utilities
+import 'package:greentoad_app/utils/capitalize.dart';
+
 class OtherBoards extends ConsumerStatefulWidget {
   const OtherBoards({super.key});
 
@@ -89,17 +92,39 @@ class OtherBoardsState extends ConsumerState<OtherBoards> {
           color: board.coverColor,
         ),
         title: Text(
-          board.boardName,
+          toCap(board.boardName),
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        subtitle: Text(
-          (board.description != null) ? board.description! : "",
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.labelSmall,
+        subtitle: const Row(
+          children: [
+            Icon(
+              Icons.menu_rounded,
+              size: 18.0,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 8.0),
+            Icon(
+              FontAwesomeIcons.fileLines,
+              size: 14.0,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 8.0),
+            Icon(
+              FontAwesomeIcons.listCheck,
+              size: 14.0,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 8.0),
+            Icon(
+              FontAwesomeIcons.clock,
+              size: 14.0,
+              color: Colors.grey,
+            ),
+          ],
         ),
         splashColor: const Color(0x319E9E9E),
+        tileColor: Theme.of(context).primaryColor,
         selectedColor: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),

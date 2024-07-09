@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+// utilities
+import 'package:greentoad_app/utils/capitalize.dart';
+
 class HighlightedBoards extends StatefulWidget {
   const HighlightedBoards({super.key});
 
@@ -58,15 +61,36 @@ class _HighlightedBoardsState extends State<HighlightedBoards> {
           color: Colors.green,
         ),
         title: Text(
-          "University Modules",
+          toCap("University Modules"),
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.labelLarge,
         ),
-        subtitle: Text(
-          "Indication of the button's disabled state and works well in both light and dark modes",
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.labelSmall,
+        subtitle: const Row(
+          children: [
+            Icon(
+              Icons.menu_rounded,
+              size: 18.0,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 8.0),
+            Icon(
+              FontAwesomeIcons.fileLines,
+              size: 14.0,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 8.0),
+            Icon(
+              FontAwesomeIcons.listCheck,
+              size: 14.0,
+              color: Colors.grey,
+            ),
+            SizedBox(width: 8.0),
+            Icon(
+              FontAwesomeIcons.clock,
+              size: 14.0,
+              color: Colors.grey,
+            ),
+          ],
         ),
         splashColor: const Color(0x319E9E9E),
         tileColor: Theme.of(context).primaryColor,

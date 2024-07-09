@@ -6,6 +6,10 @@ import 'package:greentoad_app/config/constants.dart';
 import 'package:greentoad_app/models/taskboard_model.dart';
 import 'package:greentoad_app/view_models/taskboards_viewmodel.dart';
 
+// utilities
+import 'package:greentoad_app/utils/capitalize.dart';
+import 'package:greentoad_app/views/shared_widgets/text_input.dart';
+
 class SingleTaskBoardView extends ConsumerStatefulWidget {
   final String boardId;
 
@@ -19,6 +23,12 @@ class SingleTaskBoardView extends ConsumerStatefulWidget {
 }
 
 class SingleTaskBoardViewState extends ConsumerState<SingleTaskBoardView> {
+  // controllers and local variables
+  final TextEditingController _boardNameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  bool editingBoardName = false;
+  bool editingDescription = false;
+
   @override
   Widget build(BuildContext context) {
     final taskBoardsViewModel = ref.watch(taskBoardViewModel);
@@ -34,7 +44,10 @@ class SingleTaskBoardViewState extends ConsumerState<SingleTaskBoardView> {
                 onPressed: () {
                   context.pop();
                 },
-                icon: const Icon(Icons.close),
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
               ),
             ),
             body: SafeArea(
@@ -56,7 +69,10 @@ class SingleTaskBoardViewState extends ConsumerState<SingleTaskBoardView> {
                 onPressed: () {
                   context.pop();
                 },
-                icon: const Icon(Icons.close),
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
               ),
             ),
             body: SafeArea(
@@ -83,8 +99,20 @@ class SingleTaskBoardViewState extends ConsumerState<SingleTaskBoardView> {
               onPressed: () {
                 context.pop();
               },
-              icon: const Icon(Icons.close),
+              icon: const Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 6.0),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.change_circle),
+                ),
+              ),
+            ],
           ),
           body: SafeArea(
             child: Padding(
@@ -94,7 +122,13 @@ class SingleTaskBoardViewState extends ConsumerState<SingleTaskBoardView> {
               ),
               child: ListView(
                 children: [
-                  _buildHeader(context, board!, taskBoardsViewModel),
+                  // Board Name Widget
+                  _buildBoardName(context, board!, taskBoardsViewModel),
+
+                  const SizedBox(height: 10.0),
+
+                  // Board Description Widget
+                  _buildBoardDescription(context, board!, taskBoardsViewModel),
                 ],
               ),
             ),
@@ -104,45 +138,101 @@ class SingleTaskBoardViewState extends ConsumerState<SingleTaskBoardView> {
     );
   }
 
-  Widget _buildHeader(BuildContext context, TaskBoardModel board,
+  Widget _buildBoardName(BuildContext context, TaskBoardModel board,
       TaskBoardsViewModel viewModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // board name display and update function
-        GestureDetector(
-          onTap: () async {
-            print("trigger update board name!");
+    return GestureDetector(
+      onTap: () async {
+        // use bottom sheet modal to update
+        setState(() {
+          // load initial value from db
+          _boardNameController.text = board.boardName;
 
-            // use bottom sheet modal to update
-          },
-          child: Text(
-            board.boardName
-                .split(" ")
-                .map((i) => i.replaceRange(0, 1, i[0].toUpperCase()))
-                .join(" "),
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-        ),
+          // toggle edit mode
+          (editingBoardName)
+              ? editingBoardName = false
+              : editingBoardName = true;
+        });
+      },
+      child: (!editingBoardName)
+          ? Text(
+              toCap(board.boardName),
+              style: Theme.of(context).textTheme.headlineLarge,
+            )
+          : SharedTextInputWidget(
+              controller: _boardNameController,
+              callbackFn: (newValue) {
+                if (newValue!.trim().isEmpty) {
+                  setState(() {
+                    _boardNameController.text = board.boardName;
+                  });
+                } else {
+                  setState(() {
+                    // update in db
+                    final newBoardName = newValue.trim();
 
-        const SizedBox(height: 20.0),
+                    final newBoard = TaskBoardModel(
+                      id: board.id,
+                      coverColor: board.coverColor,
+                      boardName: newBoardName,
+                    );
 
-        // board description display and update function
-        GestureDetector(
-          onTap: () {
-            print("trigger update board description!");
+                    viewModel.updateBoard(newBoard);
 
-            // use bottom sheet modal to update
-          },
-          child: Text(
-            (board.description != null)
-                ? board.description!
-                : "Tap to add description!",
-            textAlign: TextAlign.justify,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        )
-      ],
+                    editingBoardName = false;
+                  });
+                }
+              },
+            ),
+    );
+  }
+
+  // Board Description Widget
+  Widget _buildBoardDescription(BuildContext context, TaskBoardModel board,
+      TaskBoardsViewModel viewModel) {
+    return GestureDetector(
+      onTap: () async {
+        setState(() {
+          // add initial descrioption value
+          (board.description == null)
+              ? _descriptionController.text = ""
+              : _descriptionController.text = board.description!;
+
+          // toggle between edit mode
+          (editingDescription)
+              ? editingDescription = false
+              : editingDescription = true;
+        });
+      },
+      child: (editingDescription)
+          ? SharedTextInputWidget(
+              controller: _descriptionController,
+              callbackFn: (newValue) async {
+                if (newValue!.trim().isEmpty) {
+                  _descriptionController.text = board.boardName;
+                } else {
+                  String newDescription = newValue.trim();
+
+                  final newBoard = TaskBoardModel(
+                    id: board.id,
+                    coverColor: board.coverColor,
+                    boardName: board.boardName,
+                    description: newDescription,
+                  );
+
+                  // upadate in db
+                  await viewModel.updateBoard(newBoard);
+
+                  editingDescription = false;
+                }
+              },
+            )
+          : Text(
+              (board.description != null)
+                  ? board.description!
+                  : "Tap to add description!",
+              textAlign: TextAlign.justify,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
     );
   }
 }
